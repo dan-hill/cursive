@@ -16,6 +16,7 @@ use crate::event::Callback;
 use crate::Cursive;
 use crate::With;
 use std::rc::Rc;
+use std::sync::mpsc::Sender;
 
 /// Root of a menu tree.
 #[derive(Default, Clone)]
@@ -119,7 +120,7 @@ impl MenuTree {
     pub fn add_leaf<S, F>(&mut self, title: S, cb: F)
     where
         S: Into<String>,
-        F: 'static + Fn(&mut Cursive),
+        F: 'static + Fn(&mut Cursive, Sender<String>),
     {
         let i = self.children.len();
         self.insert_leaf(i, title, cb);
